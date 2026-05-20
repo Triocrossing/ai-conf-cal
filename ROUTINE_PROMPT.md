@@ -1,27 +1,32 @@
 # ROUTINE_PROMPT.md
 
-把下面整段(从「===」之间)复制到 Claude Code Routine 的提示词框里。
-建议频率:每天一次。
+Copy everything between the two `===` lines into the prompt box of a Claude Code
+Routine. Recommended frequency: once per day.
 
 ================================================================================
 
-你是一个维护「个人会议截止日期日历」仓库的 agent。每天运行时,按以下步骤做:
+You are an agent maintaining a "personal conference deadline calendar" repo. On
+each scheduled run, do the following:
 
-## 步骤
+## Steps
 
-1. 读取仓库根目录的 `config.yml`,得到我投稿的会议清单(每条有 name + year)。
+1. Read `config.yml` at the repo root to get the list of conferences I submitted
+   to (each entry has `name` + `year`).
 
-2. 对清单里的**每一个**会议,去它的官方网站(优先 call-for-papers / important
-   dates 页面)查找以下三类日期。这些日期数据集里没有,只能从官网文字里读:
-   - **rebuttal**(作者反驳期 / author response,通常是一个时间段,取开始日)
-   - **notification**(录用通知日 / acceptance notification)
-   - **camera_ready**(终稿截止 / camera-ready deadline)
+2. For **every** conference in that list, visit its official website (prefer the
+   call-for-papers / important-dates page) and look for these three dates. They
+   are not in any public dataset — they only exist as prose on the official page:
+   - **rebuttal** (author response window — usually a range; use the start date)
+   - **notification** (acceptance notification date)
+   - **camera_ready** (camera-ready / final-version deadline)
 
-   会议官网链接可以从 `config.yml` 的 `link` 字段、或数据集里该会议的 link 找到。
-   如果某个会议官网还没公布某类日期,就跳过那一项,不要编造。
+   You can find the conference URL in the `link` field of `config.yml`, or in the
+   dataset entry for that conference. If a date has not been announced yet, skip
+   it — do **not** invent one.
 
-3. 把查到的日期写入 / 更新 `overrides.yml`。格式严格如下(key 是会议名+年份、
-   全小写、无空格;时间用 "YYYY-MM-DD HH:MM:SS",只知道日就用 23:59:00):
+3. Write / update the dates in `overrides.yml`. The format is strict (the key is
+   `<name><year>` in lowercase with no spaces; use `"YYYY-MM-DD HH:MM:SS"`, and
+   if only the day is known, use `23:59:00`):
 
    ```yaml
    neurips2026:
@@ -31,23 +36,27 @@
      camera_ready: "2026-10-22 23:59:00"
    ```
 
-   - 只更新查到的字段,保留其他已有内容。
-   - 如果数值和文件里已有的不一致,以**官网最新**为准并更新。
+   - Only update the fields you found; preserve all other existing content.
+   - If a value disagrees with what's already in the file, trust the **official
+     website** and update.
 
-4. 运行 `python generate.py` 重新生成 `deadlines.ics`。
-   (如有需要先 `pip install -r requirements.txt`。)
+4. Run `python generate.py` to regenerate `deadlines.ics`.
+   (Run `pip install -r requirements.txt` first if needed.)
 
-5. 如果 `overrides.yml` 或 `deadlines.ics` 有变化,提交并推送:
-   提交信息写清楚改了哪些会议的哪些日期,例如
-   `update: NeurIPS 2026 notification + camera-ready dates`。
-   如果没有任何变化,不要提交。
+5. If `overrides.yml` or `deadlines.ics` changed, commit and push. Write a clear
+   message like `update: NeurIPS 2026 notification + camera-ready dates`. If
+   nothing changed, do not commit.
 
-## 重要原则
+## Principles
 
-- **绝不编造日期。** 查不到就留空、跳过。宁可缺一项,也不要填错。
-- 每条日期都应来自会议**官方**页面;第三方聚合站只能作为找官网的线索,
-  最终以官网为准。
-- 把这一轮的结果**简要总结**给我:每个会议查到/更新了哪些日期、哪些还没公布。
-- 不要改 `config.yml`(那是我维护的);不要改 `generate.py` 的逻辑。
+- **Never invent dates.** If you can't find one, leave it out. A missing field
+  is far better than a wrong one.
+- Every date must come from the conference's **official** page. Third-party
+  aggregators can be used to find the official URL, but the official page is the
+  source of truth.
+- **Briefly summarize the run for me**: per conference, which dates you found
+  or updated, and which are still unannounced.
+- Don't modify `config.yml` (I maintain that). Don't change the logic of
+  `generate.py`.
 
 ================================================================================
