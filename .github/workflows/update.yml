@@ -1,0 +1,51 @@
+name: Update conference calendar
+
+# Runs every day at 06:00 UTC, on every push to main, and on manual trigger.
+on:
+  schedule:
+    - cron: "0 6 * * *"
+  push:
+    branches: [main]
+    paths:
+      - "config.yml"
+      - "overrides.yml"
+      - "generate.py"
+      - ".github/workflows/update.yml"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write          # needed to commit the regenerated .ics back
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install requests pyyaml icalendar
+
+      - name: Generate calendar
+        env:
+          # Authenticated requests avoid the GitHub API rate limit, so the
+          # dataset index resolves cleanly instead of falling back to probing.
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python generate.py
+
+      - name: Commit updated calendar
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          if git diff --quiet -- deadlines.ics; then
+            echo "No changes to deadlines.ics"
+          else
+            git add deadlines.ics
+            git commit -m "chore: update deadlines.ics [skip ci]"
+            git push
+          fi

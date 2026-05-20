@@ -1,0 +1,58 @@
+# =============================================================================
+#  config.yml  —  the conferences YOU submitted to (or plan to)
+# =============================================================================
+#
+#  This is the ONLY file you normally edit. Add one block per submission.
+#
+#  Required fields:
+#    name  : the conference's short title as it appears in the ccfddl dataset,
+#            e.g. NeurIPS, ICLR, ICML, AAAI, ACL, CVPR, EMNLP, ICCV, KDD ...
+#            (case-insensitive; the script resolves it for you)
+#    year  : the conference YEAR (the year the conference is held)
+#
+#  Optional fields:
+#    label : how it should read in your calendar (default: name)
+#    file  : a hint if auto-resolution fails, e.g. "conference/AI/nips.yml"
+#            (NeurIPS lives under nips.yml — already handled, just an example)
+#    link  : fallback URL if the dataset has none
+#
+#  The abstract + paper deadlines, conference dates and location are pulled
+#  automatically. Rebuttal / notification / camera-ready go in overrides.yml.
+# =============================================================================
+
+calendar_name: "My Conference Deadlines"
+
+# Reminders fire this many days before each deadline-type event:
+reminder_days: [7, 3, 1]
+
+conferences:
+  - name: NeurIPS
+    year: 2026
+    label: NeurIPS 2026
+    file: conference/AI/nips.yml      # NeurIPS is stored as nips.yml
+
+  - name: ICLR
+    year: 2026
+    label: ICLR 2026
+
+  - name: ICML
+    year: 2026
+    label: ICML 2026
+
+  - name: AAAI
+    year: 2026
+    label: AAAI 2026
+
+  - name: CVPR
+    year: 2026
+    label: CVPR 2026
+
+  - name: ACL
+    year: 2026
+
+  # - name: CVPR
+  #   year: 2026
+  # - name: ACL
+  #   year: 2026
+  # - name: AAAI
+  #   year: 2027

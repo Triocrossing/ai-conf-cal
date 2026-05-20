@@ -1,0 +1,39 @@
+# =============================================================================
+#  overrides.yml  —  dates that NO public feed carries
+# =============================================================================
+#
+#  The ccfddl dataset reliably has abstract + paper deadlines, conference dates
+#  and location. It does NOT have rebuttal / notification / camera-ready dates —
+#  those live only in prose on each conference's call-for-papers page.
+#
+#  So when you know them, paste them here. ~1 minute per conference.
+#
+#  KEY FORMAT:  "<name><year>" all lowercase, no spaces.
+#               NeurIPS 2026  ->  neurips2026
+#               ICLR 2026     ->  iclr2026
+#
+#  Each date is "YYYY-MM-DD HH:MM:SS". If you only know the day, use 23:59:00.
+#  `timezone` applies to all dates in that block (default AoE = UTC-12).
+#  You can add an optional "<kind>_note" for extra context in the event body.
+#
+#  Tip: open the conference CFP, search the page for "rebuttal", "notification",
+#  "camera", and copy the dates across.
+# =============================================================================
+
+# ---- EXAMPLE (delete or edit) ----------------------------------------------
+neurips2026:
+  timezone: AoE
+  rebuttal: "2026-07-29 23:59:00"          # author response opens/closes
+  rebuttal_note: "Author rebuttal window"
+  notification: "2026-09-18 23:59:00"
+  camera_ready: "2026-10-22 23:59:00"
+
+iclr2026:
+  timezone: AoE
+  # rebuttal: "2025-11-12 23:59:00"
+  # notification: "2026-01-22 23:59:00"
+  # camera_ready: "2026-03-05 23:59:00"
+
+# icml2026:
+#   timezone: AoE
+#   notification: "2026-05-01 23:59:00"
