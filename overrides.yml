@@ -37,6 +37,14 @@ icml2026:
   timezone: AoE
   rebuttal: "2026-03-24 23:59:00"
   notification: "2026-04-30 23:59:00"
+  camera_ready: "2026-05-28 23:59:00"
+
+aaai2027:
+  timezone: AoE
+  rebuttal: "2026-10-19 23:59:00"          # author feedback window opens (Oct 19-25)
+  rebuttal_note: "Author feedback window (Oct 19-25)"
+  notification: "2026-11-30 23:59:00"
+  camera_ready: "2026-12-14 23:59:00"
 
 aaai2026:
   timezone: AoE
